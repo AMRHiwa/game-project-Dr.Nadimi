@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPlainTextEdit, QVBoxLayout, QWidget, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QLabel,QApplication, QMainWindow, QPlainTextEdit, QVBoxLayout, QWidget, QPushButton, QLineEdit, QHBoxLayout
 from PyQt5.QtCore import QProcess, pyqtSignal, QObject
+from PyQt5.QtGui import QPixmap
 
 class CmdProcess(QObject):
     outputChanged = pyqtSignal(str)
@@ -28,12 +29,6 @@ class CmdProcess(QObject):
         output = self.process.readAllStandardOutput().data().decode()
         self.outputChanged.emit(output)
 
-    def run_command(self, command):
-        # Run a command using subprocess and write its output to the process
-        result = subprocess.run(command.split(), stdout=subprocess.PIPE)
-        output = result.stdout.decode()
-        self.process.write(output.encode())
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -44,20 +39,37 @@ class MainWindow(QMainWindow):
         self.output_widget = QPlainTextEdit(self)
         self.input_widget = QLineEdit(self)
         self.run_button = QPushButton('Run', self)
+        self.start_button = QPushButton('Start', self)
+        self.label_welcome = QLabel(self,text='Welcome to the Morabaraba')
+        self.label_mark = QLabel(self,text='Mark')
+        self.Picture = QPixmap('data/logo.png')
+        self.label_pic = QLabel(self)
+
+        self.label_pic.setPixmap(self.Picture)
+
 
         # Connect the widgets
         self.run_button.clicked.connect(self.run_command)
+        self.start_button.clicked.connect(self.start_function)
         self.input_widget.returnPressed.connect(self.run_command)
 
         # Create the layout
-        vbox = QVBoxLayout()
-        vbox.addWidget(self.output_widget)
-        vbox.addWidget(self.input_widget)
-        vbox.addWidget(self.run_button)
+        hbox = QHBoxLayout()
+        self.vbox_right = QVBoxLayout()
+        self.vbox_left = QVBoxLayout()
+        self.vbox_left.addWidget(self.output_widget)
+        self.vbox_left.addWidget(self.input_widget)
+        self.vbox_left.addWidget(self.run_button)
+        self.vbox_right.addWidget(self.label_pic)
+        self.vbox_right.addWidget(self.label_welcome)
+        self.vbox_right.addWidget(self.start_button)
+        self.vbox_right.addWidget(self.label_mark)
+        hbox.addLayout(self.vbox_left)
+        hbox.addLayout(self.vbox_right)
 
         # Create the central widget and set the layout
         central_widget = QWidget()
-        central_widget.setLayout(vbox)
+        central_widget.setLayout(hbox)
         self.setCentralWidget(central_widget)
 
         # Create the command process and connect its outputChanged signal
@@ -66,6 +78,10 @@ class MainWindow(QMainWindow):
 
         # Start the command process
         self.cmd_process.start()
+        
+    def start_function(self):
+        command = 'python client.py' + '\n'
+        self.cmd_process.write(command)
 
     def run_command(self):
         # Get the command from the input widget and write it to the command process
