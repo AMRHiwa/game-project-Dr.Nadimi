@@ -1,3 +1,16 @@
+import os
+
+def clear_screen():
+    # برای سیستم‌عامل‌های ویندوز
+    if os.name == 'nt':
+        _ = os.system('cls')
+    # برای سیستم‌عامل‌های دیگر مانند لینوکس و مک
+    else:
+        _ = os.system('clear')
+
+
+
+
 class colors():
     GREEN = '\033[32m' 
     ENDC = '\033[00m'
@@ -20,6 +33,7 @@ def printOut (game):
     print(' ' * 34, 'Cows Alive: ', len(game.Player1.Cows),'\t', 'Cows Alive: ', len(game.Player2.Cows))
     print(' ' * 34, 'Cows Killed: ', (12 - game.Player2.UnplayedCows - len(game.Player2.Cows)), '\t', 'Cows Killed: ', (12 - game.Player1.UnplayedCows - len(game.Player1.Cows)))
     print('\n',' ' * 43, game.CurrentPlayer.Name + '\'s turn')
+
     s = '''
                                     1   2   3       4      5   6   7
      

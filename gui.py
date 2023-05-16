@@ -1,7 +1,11 @@
 import sys
 from PyQt5.QtWidgets import QLabel,QApplication, QMainWindow, QPlainTextEdit, QVBoxLayout, QWidget, QPushButton, QLineEdit, QHBoxLayout
-from PyQt5.QtCore import QProcess, pyqtSignal, QObject
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QProcess, pyqtSignal, QObject, Qt, QTimer
+from PyQt5.QtGui import QPixmap, QColor, QFont
+
+
+
+
 
 class CmdProcess(QObject):
     outputChanged = pyqtSignal(str)
@@ -33,18 +37,125 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setFixedSize(1024, 720)
+        self.setFixedSize(1024, 900)
         self.setWindowTitle("Morabaraba")
         # self.setStyleSheet("background-image: url('data\background.png'); background-repeat: no-repeat; background-position: center;") # تنظیم سبک برای ویجت
+
+
+    
+        # self.colors = [QColor("red"), QColor("yellow"), QColor("blue"), QColor("purple"), QColor("orange"), QColor("pink"), QColor("skyblue")]
+        self.colors = [QColor("red"), QColor("orange"), QColor("yellow"), QColor("green"), QColor("blue"), QColor("indigo"), QColor("violet")]
+        self.current_color = 0
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.change_color)
+        self.timer.start(500)  # هر ثانیه تابع change_color فراخوانی می‌شود
+        
+        
         # Create the widgets
         self.output_widget = QPlainTextEdit(self)
+        self.output_widget.setStyleSheet(
+        "QPlainTextEdit {"
+        "   border: 2px solid #2196F3;"
+        "   border-radius: 5px;"
+        "   padding: 5px;"
+        "   background-color: #faf9c0;"
+        "   color: #333333;"
+        "   font-size: 16px;"
+        "}"
+        )
+
+
         self.input_widget = QLineEdit(self)
+        self.input_widget.setPlaceholderText('Enter row and column ...')
+        self.input_widget.setStyleSheet(
+        "QLineEdit {"
+        "   border: 2px solid #2196F3;"
+        "   border-radius: 5px;"
+        "   padding: 5px;"
+        "   background-color: #F5F5F5;"
+        "   color: #333333;"
+        "   font-size: 20px;"
+        "}")
+
+
         self.run_button = QPushButton('Run', self)
+        self.run_button.setStyleSheet( 
+             "QPushButton {"
+        "   background-color: #4CAF50;"
+        "   color: white;"
+        "   padding: 10px;"
+        "   border-radius: 5px;"
+        "   font-size: 16px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #45a049;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #39823b;"
+        "}"
+        )
+        
+        
         self.start_button = QPushButton('Start', self)
-        self.label_welcome = QLabel(self,text='Welcome to the Morabaraba')
-        self.label_turn = QLabel(self,text='Trun of player : ')
-        self.label_mark_player1 = QLabel(self,text='Mark of player 1 :')
-        self.label_mark_player2 = QLabel(self,text='Mark of player 2 :')
+        self.start_button.setStyleSheet( 
+             "QPushButton {"
+        "   background-color: #de6910;"
+        "   color: white;"
+        "   padding: 10px;"
+        "   border-radius: 5px;"
+        "   font-size: 16px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #45a049;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: #39823b;"
+        "}"
+        )
+        # -------------- 
+        self.label_M1 = QLabel(self,text='M')
+        self.label_M1.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M1.setAlignment(Qt.AlignCenter)
+    
+        # -------------- 
+        self.label_M2 = QLabel(self,text='O')
+        self.label_M2.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M2.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M3 = QLabel(self,text='R')
+        self.label_M3.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M3.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M4 = QLabel(self,text='A')
+        self.label_M4.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M4.setAlignment(Qt.AlignCenter)
+        # -----------------------
+        self.label_M5 = QLabel(self,text='B')
+        self.label_M5.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M5.setAlignment(Qt.AlignCenter)
+        # ------------------------
+        self.label_M6 = QLabel(self,text='A')
+        self.label_M6.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M6.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M7 = QLabel(self,text='R')
+        self.label_M7.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M7.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M8 = QLabel(self,text='A')
+        self.label_M8.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M8.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M9 = QLabel(self,text='B')
+        self.label_M9.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M9.setAlignment(Qt.AlignCenter)
+        # -------------------------
+        self.label_M10 = QLabel(self,text='A')
+        self.label_M10.setFont(QFont('Arial', 25, weight= 250))
+        self.label_M10.setAlignment(Qt.AlignCenter)
+        # ------------------
+
+
         self.Picture = QPixmap('data/logo.png')
         self.label_pic = QLabel(self)
 
@@ -53,10 +164,6 @@ class MainWindow(QMainWindow):
         self.background = QLabel(self)
         bg = QPixmap('data/background.png')
         self.background.setPixmap(bg)
-        # self.setCentralWidget(self.background)
-
-        spacer = QWidget()
-        spacer.setFixedSize(20, 300)
 
         # Connect the widgets
         self.run_button.clicked.connect(self.run_command)
@@ -72,13 +179,20 @@ class MainWindow(QMainWindow):
         self.vbox_left.addWidget(self.input_widget)
         self.vbox_left.addWidget(self.run_button)
         self.vbox_right.addWidget(self.label_pic)
-        self.vbox_right.addWidget(self.label_welcome)
-        self.vbox_right.addWidget(spacer)
+        self.vbox_right.addWidget(self.label_M1)
+        self.vbox_right.addWidget(self.label_M2)
+        self.vbox_right.addWidget(self.label_M3)
+        self.vbox_right.addWidget(self.label_M4)
+        self.vbox_right.addWidget(self.label_M5)
+        self.vbox_right.addWidget(self.label_M6)
+        self.vbox_right.addWidget(self.label_M7)
+        self.vbox_right.addWidget(self.label_M8)
+        self.vbox_right.addWidget(self.label_M9)
+        self.vbox_right.addWidget(self.label_M10)
+        # self.vbox_right.addWidget(spacer)
 
         self.vbox_right.addWidget(self.start_button)
-        self.vbox_right.addWidget(self.label_turn)
-        self.vbox_right.addWidget(self.label_mark_player1)
-        self.vbox_right.addWidget(self.label_mark_player2)
+
         hbox.addLayout(self.vbox_left)
         hbox.addLayout(self.vbox_right)
 
@@ -93,6 +207,37 @@ class MainWindow(QMainWindow):
 
         # Start the command process
         self.cmd_process.start()
+
+    def change_color(self):
+        self.label_M1.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M2.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M3.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M4.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M5.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M6.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M7.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M8.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M9.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
+        
+        self.label_M10.setStyleSheet("color: {}".format(self.colors[self.current_color].name()))
+        self.current_color = (self.current_color + 1) % len(self.colors)
         
     def start_function(self):
         command = 'python client.py' + '\n'
