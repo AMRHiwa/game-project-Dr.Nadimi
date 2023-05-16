@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         "   border: 2px solid #2196F3;"
         "   border-radius: 5px;"
         "   padding: 5px;"
-        "   background-color: #faf9c0;"
+        "   background-color: #00ced1;"
         "   color: #333333;"
         "   font-size: 16px;"
         "}"
@@ -78,14 +78,17 @@ class MainWindow(QMainWindow):
         "}")
 
 
-        self.run_button = QPushButton('Run', self)
+        self.run_button = QPushButton('Enter', self)
         self.run_button.setStyleSheet( 
              "QPushButton {"
-        "   background-color: #4CAF50;"
+        "   background-color: #cae00f;"
+        "   border: 2px solid #2196F3;"
+
         "   color: white;"
         "   padding: 10px;"
         "   border-radius: 5px;"
         "   font-size: 16px;"
+        "   color: #b8860b;"
         "}"
         "QPushButton:hover {"
         "   background-color: #45a049;"
@@ -99,11 +102,14 @@ class MainWindow(QMainWindow):
         self.start_button = QPushButton('Start', self)
         self.start_button.setStyleSheet( 
              "QPushButton {"
-        "   background-color: #de6910;"
+        "   background-color: #42ff75;"
+        "   border: 2px solid #2196F3;"
+
         "   color: white;"
         "   padding: 10px;"
         "   border-radius: 5px;"
         "   font-size: 16px;"
+        "   color: #b8860b;"
         "}"
         "QPushButton:hover {"
         "   background-color: #45a049;"
