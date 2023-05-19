@@ -7,31 +7,31 @@ from PyQt5.QtGui import QPixmap, QColor, QFont
 
 
 
-class CmdProcess(QObject):
-    outputChanged = pyqtSignal(str)
+# class CmdProcess(QObject):
+#     outputChanged = pyqtSignal(str)
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
 
-        # Create the process object and connect its signals
-        self.process = QProcess(self)
-        self.process.readyReadStandardOutput.connect(self.handle_stdout)
+#         # Create the process object and connect its signals
+#         self.process = QProcess(self)
+#         self.process.readyReadStandardOutput.connect(self.handle_stdout)
 
-    def start(self):
-        # Start the process with cmd.exe on Windows or bash on Linux/Mac
-        if sys.platform.startswith('win'):
-            self.process.start('cmd.exe')
-        else:
-            self.process.start('bash')
+    # def start(self):
+    #     # Start the process with cmd.exe on Windows or bash on Linux/Mac
+    #     if sys.platform.startswith('win'):
+    #         self.process.start('cmd.exe')
+    #     else:
+    #         self.process.start('bash')
 
-    def write(self, command):
-        # Write a command to the process
-        self.process.write(command.encode())
+    # def write(self, command):
+    #     # Write a command to the process
+    #     self.process.write(command.encode())
 
-    def handle_stdout(self):
-        # Emit the outputChanged signal with the process's output
-        output = self.process.readAllStandardOutput().data().decode()
-        self.outputChanged.emit(output)
+    # def handle_stdout(self):
+    #     # Emit the outputChanged signal with the process's output
+    #     output = self.process.readAllStandardOutput().data().decode()
+    #     self.outputChanged.emit(output)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -48,7 +48,7 @@ class MainWindow(QMainWindow):
         self.current_color = 0
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.change_color)
-        self.timer.start(300)  # هر ثانیه تابع change_color فراخوانی می‌شود
+        self.timer.start(500)  # هر ثانیه تابع change_color فراخوانی می‌شود
         
         
         # Create the widgets

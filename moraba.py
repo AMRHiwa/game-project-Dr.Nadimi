@@ -37,6 +37,7 @@ def getPlayerMove(player, availableBoard, allBoardMills):
         if player.PlayerState == ThePlayerState.PLACING:
             print("YOU ARE PLACING") 
             pos = getPos()
+            # pos = agent_psplay we must define the function for getting the postion
             
             if Game.exist(pos, availableBoard):
                 player.addCow(Game.findCow(pos, availableBoard))
