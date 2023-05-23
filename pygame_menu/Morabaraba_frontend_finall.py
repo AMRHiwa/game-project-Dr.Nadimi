@@ -219,6 +219,8 @@ class MorabaScreen():
             # Draw the player's color circle
             self.is_shift(self.circle_data)
 
+    
+
     # Check if a circle was clicked and change its color
     def check_click(self, pos):
         for position, data in self.circle_data.items():
